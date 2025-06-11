@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Understanding Shakespeare</title>
+
+  <!-- Inlined main.css + Enhanced Animations -->
+  <style>
+  /* ============================= */
+  /*  Inlined CSS + Enhanced Animations */
+  /* ============================= */
+
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500&display=swap');
+
+  :root {
+    --accent-color: #2176FF;
+    --accent-hover: #1a5fd0;
+    --background-color: #FAFAFA;
+    --surface-color: #FFFFFF;
+    --text-primary: #212121;
+    --text-secondary: #616161;
+    --border-color: #E0E0E0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+    --transition-speed: 0.2s;
+    --font-sans: 'Roboto', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, h1, h2, p, ul {
+    margin: 0; padding: 0;
+  }
+  html, body {
+    height: 100%;
+  }
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition-speed);
+  }
+  a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 0; height: 2px;
+    background: var(--accent-color);
+    transition: width var(--transition-speed) ease;
+  }
+  a:hover {
+    color: var(--accent-hover);
+  }
+  a:hover::after {
+    width: 100%;
+  }
+
+  header {
+    background: var(--surface-color);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: slideDown 0.6s ease-out both;
+  }
+  header h1 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-primary);
+  }
+  header nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  header nav a {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  main {
+    flex: 1;
+    padding: 2rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  p.subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-out both 0.3s;
+  }
+
+  /* Sections */
+  .featured-section {
+    margin-top: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out both;
+  }
+  .featured-section:nth-of-type(1) { animation-delay: 0.4s; }
+  .featured-section:nth-of-type(2) { animation-delay: 0.6s; }
+  .featured-section:nth-of-type(3) { animation-delay: 0.8s; }
+  .featured-section:nth-of-type(4) { animation-delay: 1s; }
+  .featured-section:nth-of-type(5) { animation-delay: 1.2s; }
+  .featured-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  figure {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+  figure img {
+    width: 100%;
+    display: block;
+    transition: transform var(--transition-speed) ease;
+  }
+  figure:hover img {
+    transform: scale(1.05);
+  }
+  figcaption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+  }
+
+  /* Button */
+  .btn-primary {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    animation: pulse 2s infinite ease-in-out 2s;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .resources-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 1rem auto 2rem;
+  }
+  .resources-list li {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    margin: 0.75rem 0;
+    padding: 1rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out both;
+    animation-delay: 1.4s;
+  }
+  .resources-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+  }
+  .resources-list li a {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  footer {
+    background: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.75rem; }
+    .btn-primary { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+  }
+
+  /* === KEYFRAME ANIMATIONS === */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); }
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Understanding Shakespeare</h1>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#works">Major Works</a>
+      <a href="#language">Language &amp; Style</a>
+      <a href="#themes">Themes</a>
+      <a href="#legacy">Legacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="subtitle">An introduction to the works and language of William Shakespeare.</p>
+
+    <section id="overview" class="featured-section">
+      <h2>Who Was William Shakespeare?</h2>
+      <figure>
+        <img src="images/shakespeare_portrait.jpg" alt="Portrait of William Shakespeare">
+        <figcaption>Portrait of William Shakespeare</figcaption>
+      </figure>
+      <p>
+        William Shakespeare (1564–1616) is widely regarded as the greatest writer in the English language. Born
+        in Stratford-upon-Avon, he rose from modest beginnings to become an actor, playwright, and shareholder
+        in the Lord Chamberlain’s Men (later the King’s Men) in London. Over his lifetime, Shakespeare penned
+        at least 38 plays, 154 sonnets, and numerous poems—works that continue to resonate across cultures
+        and centuries.
+      </p>
+      <p>
+        Shakespeare’s life is as intriguing as his plays. Though records chart his baptism and his will, details
+        about his personal beliefs and private life remain scarce, giving rise to scholarly debates and even
+        conspiracy theories about authorship.
+      </p>
+    </section>
+
+    <section id="works" class="featured-section">
+      <h2>Major Works</h2>
+      <figure>
+        <img src="images/hamlet_scene.jpg" alt="Scene from Hamlet">
+        <figcaption>Scene from <em>Hamlet</em></figcaption>
+      </figure>
+      <p>
+        Shakespeare’s plays can be grouped into tragedies, comedies, and histories. Among the tragedies,
+        <em>Hamlet</em>, <em>Othello</em>, <em>King Lear</em>, and <em>Macbeth</em> stand out for their profound
+        exploration of ambition, madness, and moral corruption.
+      </p>
+      <p>
+        His comedies—such as <em>A Midsummer Night’s Dream</em>, <em>Much Ado About Nothing</em>, and
+        <em>As You Like It</em>—delight with mistaken identities, witty banter, and happy resolutions.
+        The history plays, including <em>Henry V</em> and <em>Richard III</em>, dramatize the political
+        struggles of England’s monarchy.
+      </p>
+    </section>
+
+    <section id="language" class="featured-section">
+      <h2>Language &amp; Style</h2>
+      <figure>
+        <img src="images/globe_theatre.jpg" alt="Globe Theatre">
+        <figcaption>The Globe Theatre in London</figcaption>
+      </figure>
+      <p>
+        Shakespeare’s mastery of Early Modern English gave English its enduring literary richness. He
+        coined thousands of words—“assassination,” “bedazzled,” “swagger,” and more—and crafted
+        phrases like “to be or not to be” that have become part of everyday speech.
+      </p>
+      <p>
+        His verse often uses iambic pentameter, a rhythmic pattern that mirrors natural speech. Shakespeare
+        interwove prose and poetry, using lofty verse for nobility and witty prose for humor or commoners,
+        creating dynamic contrasts within his plays.
+      </p>
+    </section>
+
+    <section id="themes" class="featured-section">
+      <h2>Key Themes</h2>
+      <figure>
+        <img src="images/romeo_juliet.jpg" alt="Romeo and Juliet">
+        <figcaption>Romeo and Juliet, Shakespeare’s exploration of love and fate</figcaption>
+      </figure>
+      <p>
+        Recurring themes in Shakespeare’s work include love, power, jealousy, betrayal, and the supernatural.
+        In <em>Romeo and Juliet</em>, he examines the fervor of young love and the tragic consequences of
+        family feuds. In <em>Macbeth</em>, he delves into unchecked ambition and guilt.
+      </p>
+      <p>
+        Many plays also explore the fine line between appearance and reality—characters disguise themselves,
+        deceive others, or question their own identities, as in <em>Twelfth Night</em> and <em>Othello</em>.
+      </p>
+    </section>
+
+    <section id="legacy" class="featured-section">
+      <h2>Shakespeare’s Enduring Legacy</h2>
+      <figure>
+        <img src="images/shakespeare_statue.jpg" alt="Statue of Shakespeare">
+        <figcaption>Statue of Shakespeare outside the British Library</figcaption>
+      </figure>
+      <p>
+        Shakespeare’s influence on literature, theater, and film is immeasurable. His works have been
+        translated into every major living language and are performed more often than those of any other
+        playwright. From modern retellings in movies to acclaimed theatre productions, his presence remains ubiquitous.
+      </p>
+      <p>
+        Academic debate over textual variants, editing, and performance practices ensures that Shakespeare
+        scholarship continues to evolve with each generation.
+      </p>
+    </section>
+
+ 
+
+    <section id="resources" class="featured-section">
+      <h2>Further Reading &amp; Resources</h2>
+      <ul class="resources-list">
+        <li>
+          <a href="https://www.britannica.com/biography/William-Shakespeare" target="_blank">
+            William Shakespeare – Britannica
+          </a>
+        </li>
+        <li>
+          <a href="https://shakespeare.folger.edu/" target="_blank">
+            Folger Shakespeare Library
+          </a>
+        </li>
+        <li>
+          <a href="https://www.openstax.org/books/literature/pages/shakespeare" target="_blank">
+            OpenStax: Shakespeare’s Works
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 englishpapers.org. All rights reserved.
+  </footer>
+</body>
+</html>

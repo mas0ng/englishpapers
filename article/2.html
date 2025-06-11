@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grammar Essentials</title>
+
+  <!-- Inlined CSS + Enhanced Animations -->
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500&display=swap');
+
+  :root {
+    --accent-color: #2176FF;
+    --accent-hover: #1a5fd0;
+    --background-color: #FAFAFA;
+    --surface-color: #FFFFFF;
+    --text-primary: #212121;
+    --text-secondary: #616161;
+    --border-color: #E0E0E0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+    --transition-speed: 0.2s;
+    --font-sans: 'Roboto', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--background-color);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+  }
+
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition-speed);
+  }
+  a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 0; height: 2px;
+    background: var(--accent-color);
+    transition: width var(--transition-speed) ease;
+  }
+  a:hover { color: var(--accent-hover); }
+  a:hover::after { width: 100%; }
+
+  header {
+    background: var(--surface-color);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0; z-index: 100;
+    animation: slideDown 0.6s ease-out both;
+  }
+  header h1 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+  }
+  header nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  header nav a {
+    font-family: var(--font-heading);
+    font-weight: 500;
+  }
+
+  main {
+    flex: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-out both 0.3s;
+  }
+
+  .featured-section {
+    margin-top: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out both;
+  }
+  .featured-section:nth-of-type(1) { animation-delay: 0.4s; }
+  .featured-section:nth-of-type(2) { animation-delay: 0.6s; }
+  .featured-section:nth-of-type(3) { animation-delay: 0.8s; }
+  .featured-section:nth-of-type(4) { animation-delay: 1s; }
+  .featured-section:nth-of-type(5) { animation-delay: 1.2s; }
+  .featured-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  figure {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+  figure img {
+    width: 100%;
+    display: block;
+    transition: transform var(--transition-speed);
+  }
+  figure:hover img {
+    transform: scale(1.05);
+  }
+  figcaption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: background var(--transition-speed), transform var(--transition-speed);
+    animation: pulse 2s infinite ease-in-out 2s;
+    text-align: center;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .resources-list {
+    list-style: none;
+    max-width: 800px;
+    margin: 1rem auto 2rem;
+  }
+  .resources-list li {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out both;
+    animation-delay: 1.4s;
+  }
+  .resources-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+  }
+  .resources-list li a {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  footer {
+    background: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.75rem; }
+    .btn-primary { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+  }
+
+  /* Animations */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Grammar Essentials</h1>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#parts">Parts of Speech</a>
+      <a href="#punctuation">Punctuation</a>
+      <a href="#mistakes">Common Mistakes</a>
+      <a href="#tips">Quick Tips</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="subtitle">Key rules and tips to polish your English writing.</p>
+
+    <section id="overview" class="featured-section">
+      <h2>Why Grammar Matters</h2>
+      <figure>
+        <img src="images/grammar_book.jpg" alt="Open grammar book">
+        <figcaption>Strong grammar boosts clarity and credibility.</figcaption>
+      </figure>
+      <p>
+        Good grammar ensures your ideas are conveyed clearly and professionally. It prevents miscommunication,
+        strengthens your arguments, and enhances the reader’s trust. Whether writing emails, reports, or
+        articles, mastering the basics is essential.
+      </p>
+    </section>
+
+    <section id="parts" class="featured-section">
+      <h2>Parts of Speech</h2>
+      <figure>
+        <img src="images/parts_of_speech.jpg" alt="Diagram of parts of speech">
+        <figcaption>The eight fundamental parts of speech.</figcaption>
+      </figure>
+      <p>
+        All English words fall into eight categories:
+        <strong>nouns</strong> name people or things, <strong>verbs</strong> show action or state,
+        <strong>adjectives</strong> describe, <strong>adverbs</strong> modify, <strong>pronouns</strong>
+        replace nouns, <strong>prepositions</strong> show relationships, <strong>conjunctions</strong>
+        connect, and <strong>interjections</strong> express emotion.
+      </p>
+    </section>
+
+    <section id="punctuation" class="featured-section">
+      <h2>Punctuation Essentials</h2>
+      <figure>
+        <img src="images/punctuation.jpg" alt="Punctuation marks">
+        <figcaption>Key punctuation marks and their uses.</figcaption>
+      </figure>
+      <p>
+        • <strong>Period.</strong> Ends statements.<br>
+        • <strong>Comma,</strong> separates items and clauses.<br>
+        • <strong>Semicolon;</strong> links related independent clauses.<br>
+        • <strong>Colon:</strong> introduces lists or explanations.<br>
+        • <strong>Dash—</strong> adds emphasis or interruption.<br>
+        • <strong>Quotation “ ”</strong> encloses speech or titles.
+      </p>
+    </section>
+
+    <section id="mistakes" class="featured-section">
+      <h2>Common Grammar Pitfalls</h2>
+      <figure>
+        <img src="images/grammar_errors.jpg" alt="Red pen correcting errors">
+        <figcaption>Watch out for these frequent errors.</figcaption>
+      </figure>
+      <ul>
+        <li><strong>Subject–verb agreement:</strong> “She <em>writes</em>,” not “She <em>write</em>.”</li>
+        <li><strong>Its vs. It’s:</strong> <em>Its</em> possessive vs. <em>it’s</em> = “it is.”</li>
+        <li><strong>Their/There/They’re:</strong> Possessive vs. location vs. contraction.</li>
+        <li><strong>Run-on sentences:</strong> Split or use proper punctuation.</li>
+      </ul>
+    </section>
+
+    <section id="tips" class="featured-section">
+      <h2>Quick Polishing Tips</h2>
+      <figure>
+        <img src="images/tips.jpg" alt="Hand polishing text">
+        <figcaption>Simple strategies for cleaner writing.</figcaption>
+      </figure>
+      <p>
+        1. Read your draft aloud to catch awkward phrasing.<br>
+        2. Use active voice where possible (“The team achieved…”).<br>
+        3. Vary sentence length to maintain rhythm.<br>
+        4. Keep a style guide or checklist handy.<br>
+        5. Use tools like spellcheckers—but don’t rely solely on them.
+      </p>
+    </section>
+
+    <section id="resources" class="featured-section">
+      <h2>Further Reading & Resources</h2>
+      <ul class="resources-list">
+        <li>
+          <a href="https://www.grammarbook.com/" target="_blank">
+            The Blue Book of Grammar and Punctuation
+          </a>
+        </li>
+        <li>
+          <a href="https://owl.purdue.edu/owl/purdue_owl.html" target="_blank">
+            Purdue OWL Writing Lab
+          </a>
+        </li>
+        <li>
+          <a href="https://www.englishgrammar.org/" target="_blank">
+            EnglishGrammar.org
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 englishpapers.org. All rights reserved.
+  </footer>
+</body>
+</html>
