@@ -47,6 +47,21 @@
   </main>
 
   <!-- Gate Logic & Dynamic Script Injection -->
+<script>
+    const titles = [
+      "Mastering Grammar Essentials",
+      "Exploring Shakespeare's World",
+      "Top Tips for Better Writing",
+      "Understanding English Literature",
+      "Punctuation Rules You Need to Know",
+      "How to Analyse a Poem",
+      "Common English Mistakes and Fixes",
+      "A Guide to Creative Writing",
+      "The Power of Persuasive Language",
+      "Unlocking English Vocabulary"
+    ];
+    document.title = titles[Math.floor(Math.random() * titles.length)];
+  </script>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const overlay    = document.getElementById('code-container');
