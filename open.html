@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Play Activity — English Papers</title>
+  <link rel="stylesheet" href="css/main.css">
+
+  <style>
+    #code-container { display:flex; }
+    #app-content    { display:none; }
+    .skip-gate #code-container { display:none!important; }
+    .skip-gate #app-content    { display:block!important; }
+  </style>
+  <script>
+    if (localStorage.getItem('ubgHash')) {
+      document.documentElement.classList.add('skip-gate');
+    }
+  </script>
+</head>
+<body>
+  <!-- Gate Overlay -->
+  <div id="code-container">
+    <div class="code-card">
+      <h2>Enter Beta Key</h2>
+      <div id="debug-code" style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.5rem;"></div>
+      <div class="letter-inputs">
+        <input maxlength="1"><input maxlength="1">
+        <input maxlength="1"><input maxlength="1">
+        <input maxlength="1"><input maxlength="1">
+      </div>
+      <button id="confirm-btn">Comfirm</button>
+      <div id="code-message"></div>
+    </div>
+  </div>
+
+  <!-- Header & Warning -->
+  <header>
+    <nav><a href="index.html">Home</a> | <a href="activities.html">Activities</a></nav>
+  </header>
+  
+
+  <!-- Game & Forget (hidden until unlock) -->
+  <main id="app-content">
+	<div class="warning-banner">⚠️ Anything typed into activities may be flagged by content filtering software ⚠️</div>
+	<div class="warning-banner">Press "Forget Key" and close tab to avoid the game showing up if somebody comes here through search history. You will need to re-eneter Key again.</div>
+    <div id="game-container">
+    <div id="loader-overlay">▶️ Click to Load Activity</div>
+	</div>
+    <button class="forget-btn" id="forget-btn">Forget Key</button>
+  </main>
+
+  <!-- Gate Logic & Dynamic Injection -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('code-container'),
+          app     = document.getElementById('app-content'),
+          debug   = document.getElementById('debug-code'),
+          inputs  = Array.from(overlay.querySelectorAll('input')),
+          btn     = document.getElementById('confirm-btn'),
+          msg     = document.getElementById('code-message'),
+          forget  = document.getElementById('forget-btn'),
+          unlocked = document.documentElement.classList.contains('skip-gate');
+
+    // Show stored code
+    const stored = localStorage.getItem('ubgHash');
+    if (stored) debug.textContent = `Stored code: ${stored}`;
+
+    inputs.forEach((inp,i) => {
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
+        if (inp.value && i < inputs.length-1) inputs[i+1].focus();
+      });
+      inp.addEventListener('keydown', e => {
+        if (e.key==='Backspace' && !inp.value && i>0) inputs[i-1].focus();
+      });
+    });
+    inputs[0].focus();
+
+    const setMsg = t => msg.textContent = t;
+
+    async function sha256hex(str){
+      const buf = new TextEncoder().encode(str);
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash))
+        .map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+
+    async function verify(code){
+      setMsg('Checking…');
+      try {
+        const h   = await sha256hex(code);
+        const txt = await fetch('https://services.englishpapers.org/urls/ubg_allowed.txt')
+                          .then(r=>r.text());
+        return txt.split('\n').map(l=>l.trim()).includes(h);
+      } catch {
+        setMsg('Error');
+        return false;
+      }
+    }
+
+    async function unlock(code){
+      localStorage.setItem('ubgHash', code);
+      document.documentElement.classList.add('skip-gate');
+      // inject open.js
+      const s = document.createElement('script');
+      s.src = 'js/open.js';
+      document.body.appendChild(s);
+    }
+
+    async function handleConfirm(){
+      const code = inputs.map(i=>i.value).join('');
+      if (code.length<6) return setMsg('Enter 6 letters');
+      btn.disabled=true; inputs.forEach(i=>i.value=''); setMsg(''); btn.style.display='none';
+      const spinner = document.createElement('div'); spinner.className='spinner';
+      overlay.querySelector('.code-card').insertBefore(spinner,msg);
+
+      const [ok] = await Promise.all([
+        verify(code),
+        new Promise(r=>setTimeout(r,2000))
+      ]);
+      spinner.remove(); btn.style.display=''; btn.disabled=false;
+
+      if (ok) unlock(code);
+      else setMsg('Invalid code');
+    }
+
+    btn.addEventListener('click', handleConfirm);
+    inputs.forEach(inp => inp.addEventListener('keydown', e => {
+      if(e.key==='Enter') handleConfirm();
+    }));
+
+    // If unlocked, inject immediately
+    if (unlocked) {
+      const s = document.createElement('script');
+      s.src = 'js/open.js';
+      document.body.appendChild(s);
+      debug.textContent = '';
+    }
+
+    // Forget Key
+    forget.addEventListener('click', () => {
+      localStorage.removeItem('ubgHash');
+      location.reload();
+    });
+  });
+  </script>
+</body>
+</html>
