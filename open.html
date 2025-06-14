@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>English Papers – Play</title>
+  <link rel="stylesheet" href="css/main.css" />
+	
+  <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const activity = params.get("activity");
+
+  if (activity === "panic") {
+
+    console.log('Start – waiting 1 second…');
+
+    new Promise(resolve => setTimeout(resolve, 100))
+      .then(() => {
+        console.log('1 second passed – redirecting');
+        const redirectUrl = "index.html?panic=true";
+        window.location.href = redirectUrl;
+      });
+  }
+});
+</script>
+
+
+  <script>
+    // 1. Only allow from your domains
+    const allowedOrigin =
+      location.hostname === "englishpapers.org" ||
+      location.href.startsWith("file:///Z:/englishpapers.org/");
+    if (!allowedOrigin) {
+      document.write("Access denied.");
+    }
+    // 2. If code already validated, reveal real UI
+    else if (localStorage.getItem("access") === "true") {
+      document.documentElement.classList.add("skip-gate");
+    }
+    // Otherwise, show the gate until validation
+  </script>
+</head>
+
+<body>
+
+  <!-- Code-Gate overlay -->
+  <div id="code-container">
+    <div class="code-card">
+      <h2>Enter Beta Code</h2>
+	  <p style="padding-bottom: 20px">These other English activities are still being made, for testing purposes, enter the beta code</p>
+      <div class="letter-inputs">
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+      </div>
+      <button id="confirm-btn" disabled>Confirm</button>
+      <div id="code-message"></div>
+    </div>
+  </div>
+
+  <!-- Real app content (hidden until .skip-gate on <html>) -->
+  <div id="app-content" style="display:none">
+  
+  <div class="warning-banner">
+    ⚠️ Please note: if someone else is about to view this, press the panic button to remove your access. To remove the 'tier upgrade' popup, go to englishpapers.org.
+  </div>
+
+
+    <div id="game-container"><div id="loader-overlay">⏳ Click to load</div></div>
+    
+    <button class="forget-btn"
+            onclick="localStorage.removeItem('access'); window.location.href = 'open.html?activity=panic';">
+      PANIC BUTTON - Removes access from the site
+    </button>
+  </div>
+
+  <script src="js/open.js"></script>
+
+  <!-- Code-Gate logic -->
+  <script>
+    const inputs = document.querySelectorAll(".letter-inputs input");
+    const btn    = document.getElementById("confirm-btn");
+    const msg    = document.getElementById("code-message");
+
+    function getCode() {
+      return Array.from(inputs)
+                  .map(i => i.value.toUpperCase())
+                  .join("");
+    }
+    function updateBtn() {
+      btn.disabled = getCode().length !== 6;
+    }
+
+    inputs.forEach((input, idx) => {
+      input.addEventListener("input", () => {
+        if (input.value.length > 1) input.value = input.value.charAt(0);
+        if (input.value && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        }
+        updateBtn();
+      });
+      input.addEventListener("keydown", e => {
+        if (e.key === "Backspace" && !input.value && idx > 0) {
+          inputs[idx - 1].focus();
+        }
+      });
+      input.addEventListener("paste", e => {
+        const paste = e.clipboardData.getData("text")
+                         .slice(0,6).split("");
+        paste.forEach((c,j) => {
+          if (inputs[j]) inputs[j].value = c.toUpperCase();
+        });
+        const next = Math.min(paste.length, inputs.length - 1);
+        inputs[next].focus();
+        updateBtn();
+        e.preventDefault();
+      });
+    });
+
+    btn.addEventListener("click", () => {
+      const code = getCode();
+      msg.textContent = "";
+      btn.disabled = true;
+      fetch("https://services.depoxtxyz.workers.dev/auth?code=" + code)
+        .then(r => r.json())
+        .then(data => {
+          if (data.valid) {
+            localStorage.setItem("access", "true");
+            document.documentElement.classList.add("skip-gate");
+          } else {
+            msg.textContent = "Invalid code.";
+            inputs.forEach(i => i.value = "");
+            inputs[0].focus();
+            updateBtn();
+          }
+        })
+        .catch(() => {
+          msg.textContent = "Error checking code.";
+          btn.disabled = false;
+        });
+    });
+
+    // Autofocus first input
+    inputs[0].focus();
+  </script>
+  <script>
+    const titles = [
+      "Mastering Grammar Essentials",
+      "Exploring Shakespeare's World",
+      "Top Tips for Better Writing",
+      "Understanding English Literature",
+      "Punctuation Rules You Need to Know",
+      "How to Analyse a Poem",
+      "Common English Mistakes and Fixes",
+      "A Guide to Creative Writing",
+      "The Power of Persuasive Language",
+      "Unlocking English Vocabulary"
+    ];
+    document.title = titles[Math.floor(Math.random() * titles.length)];
+  </script>
+</body>
+</html>

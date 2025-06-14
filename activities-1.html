@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>English Activities | English Revision Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Variables & Reset */
+    :root {
+      --primary: #6B73FF;
+      --primary-dark: #000DFF;
+      --light-bg: #f5f5f5;
+      --dark-text: #333;
+      --card-bg: #fff;
+      --shadow-light: rgba(0,0,0,0.05);
+      --shadow-medium: rgba(0,0,0,0.15);
+      --accent: #FFD54F;
+	    --warning-bg: #FFF8E1;
+      --warning-border: #FFD54F;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light-bg);
+      color: var(--dark-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Banner */
+    .site-banner {
+      max-width: 90%;
+      margin: 2rem auto;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 8px 15px var(--shadow-medium);
+    }
+    .site-title { font-size: 2rem; font-weight: 600; }
+    .site-tagline { font-size: 1rem; font-weight: 300; opacity: 0.9; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem auto;
+      max-width: 600px;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--card-bg);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow-light);
+      padding: 1.5rem;
+      animation: fadeIn 0.5s ease;
+    }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Buttons & Feedback */
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .btn { flex: 1; padding: 0.75rem; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
+    .btn:hover { background: var(--primary-dark); }
+    .feedback { margin-top: 0.5rem; font-weight: 600; }
+
+    /* Question Box */
+    .question-box {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+    }
+	
+	.warning-banner {
+      max-width: 90%;
+      margin: 1rem auto;
+      background: var(--warning-bg);
+      border-left: 4px solid var(--warning-border);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      color: var(--dark-text);
+      font-weight: 500;
+      text-align: center;
+      box-shadow: 0 2px 5px var(--shadow-light);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Spelling Inputs */
+    .spelling-input { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 2px solid var(--shadow-light); border-radius: 8px; font-size: 1rem; }
+    .spelling-submit { padding: 0.75rem 1.5rem; background: var(--accent); color: var(--dark-text); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: background 0.3s; }
+    .spelling-submit:hover { background: #FFC107; }
+  </style>
+</head>
+<body>
+  <header class="site-banner">
+    <h1 class="site-title">English Activities</h1>
+    <p class="site-tagline">Test your skills with fun games!</p>
+  </header>
+  <div class="warning-banner">
+    ⚠️ Please note: due to a problem, all beta keys have been reset and new ones have been created.
+  </div>
+
+  <div class="tabs">
+	<button class="tab-btn" id="home">Home</button>
+    <button class="tab-btn active" data-tab="meta-sim">Metaphor vs Simile</button>
+    <button class="tab-btn" data-tab="spelling">Spelling Challenge</button>
+    <button class="tab-btn" id="more-btn">More Activities [BETA]</button>
+  </div>
+
+  <div class="container">
+    <!-- Metaphor vs Simile -->
+    <div class="tab-content active" id="meta-sim">
+      <div class="question-box" id="ms-question">Loading...</div>
+      <div class="btn-group">
+        <button class="btn" data-choice="Metaphor">Metaphor</button>
+        <button class="btn" data-choice="Simile">Simile</button>
+      </div>
+      <div class="feedback" id="ms-feedback"></div>
+      <button class="btn" id="ms-next" style="margin-top:1rem;">Next Sentence</button>
+    </div>
+
+    <!-- Spelling Challenge -->
+    <div class="tab-content" id="spelling">
+      <div class="question-box" id="sp-question">Loading...</div>
+      <input type="text" id="sp-answer" class="spelling-input" placeholder="Type the correct spelling...">
+      <button class="spelling-submit" id="sp-submit">Check Spelling</button>
+      <div class="feedback" id="sp-feedback"></div>
+      <button class="btn" id="sp-next" style="margin-top:1rem;">Next Word</button>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        if (target) {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+          document.getElementById(target).classList.add('active');
+        }
+      });
+    });
+    // More Activities link
+    document.getElementById('more-btn').addEventListener('click', () => {
+      window.location.href = 'activities-2.html';
+    });
+	
+	document.getElementById('home').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    // Game Logic
+    const msItems = [
+      { text: "Time is a thief.", answer: "Metaphor" },
+      { text: "Her smile was as bright as the sun.", answer: "Simile" },
+      { text: "He has a heart of stone.", answer: "Metaphor" },
+      { text: "She danced like a leaf in the wind.", answer: "Simile" }
+    ];
+    let msIndex = 0;
+    const msQuestionEl = document.getElementById('ms-question');
+    const msFeedbackEl = document.getElementById('ms-feedback');
+    document.querySelectorAll('#meta-sim .btn[data-choice]').forEach(btn => btn.addEventListener('click', () => {
+      const choice = btn.dataset.choice;
+      const correct = msItems[msIndex].answer;
+      msFeedbackEl.textContent = choice === correct ? '✅ Correct!' : `❌ Oops! It's a ${correct}.`;
+    }));
+    document.getElementById('ms-next').addEventListener('click', () => {
+      msIndex = (msIndex + 1) % msItems.length;
+      msQuestionEl.textContent = msItems[msIndex].text;
+      msFeedbackEl.textContent = '';
+    });
+    msQuestionEl.textContent = msItems[msIndex].text;
+
+    const spItems = ['receive','accommodate','beautiful','questionnaire'];
+    let spIndex = 0;
+    const spQuestionEl = document.getElementById('sp-question');
+    const spAnswerEl = document.getElementById('sp-answer');
+    const spFeedbackEl = document.getElementById('sp-feedback');
+    function scramble(word) { return word.split('').sort(() => 0.5 - Math.random()).join(''); }
+    document.getElementById('sp-submit').addEventListener('click', () => {
+      const user = spAnswerEl.value.trim().toLowerCase();
+      const correct = spItems[spIndex];
+      if (!user) return;
+      spFeedbackEl.textContent = user === correct ? '✅ Well done!' : `❌ Try again. It's "${correct}".`;
+    });
+    document.getElementById('sp-next').addEventListener('click', () => {
+      spIndex = (spIndex + 1) % spItems.length;
+      spQuestionEl.textContent = scramble(spItems[spIndex]);
+      spAnswerEl.value = '';
+      spFeedbackEl.textContent = '';
+    });
+    spQuestionEl.textContent = scramble(spItems[spIndex]);
+  </script>
+  <script>
+    const titles = [
+      "Mastering Grammar Essentials",
+      "Exploring Shakespeare's World",
+      "Top Tips for Better Writing",
+      "Understanding English Literature",
+      "Punctuation Rules You Need to Know",
+      "How to Analyse a Poem",
+      "Common English Mistakes and Fixes",
+      "A Guide to Creative Writing",
+      "The Power of Persuasive Language",
+      "Unlocking English Vocabulary"
+    ];
+    document.title = titles[Math.floor(Math.random() * titles.length)];
+  </script>
+</body>
+</html>

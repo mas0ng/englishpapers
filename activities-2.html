@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>English Papers – Activities</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <script>
+    // 1. Only allow from your domains
+    const allowed =
+      location.hostname === "englishpapers.org" ||
+      location.href.startsWith("file:///Z:/englishpapers.org/");
+    if (!allowed) {
+      document.write("Access denied.");
+    }
+    // 2. If code already validated, flip the “skip-gate” switch
+    else if (localStorage.getItem("access") === "true") {
+      document.documentElement.classList.add("skip-gate");
+    }
+    // else: leave everything hidden behind the gate
+  </script>
+</head>
+
+<body>
+  <!-- Code-Gate overlay (visible by default, hidden when .skip-gate on <html>) -->
+  <div id="code-container">
+    <div class="code-card">
+      <h2>Enter Beta Code</h2>
+	  <p style="padding-bottom: 20px">These other English activities are still being made, for testing purposes, enter the beta code</p>
+      <div class="letter-inputs">
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+        <input type="text" maxlength="1" />
+      </div>
+      <button id="confirm-btn" disabled>Confirm</button>
+      <div id="code-message"></div>
+    </div>
+  </div>
+
+  <!-- Main content (hidden by default via inline style; shown when .skip-gate on <html>) -->
+  <div id="main-content" style="display:none">
+  <div class="warning-banner">
+    ⚠️ Please note: anything typed into any games or search bar can be detected by filtering software.
+  </div>
+  
+    <div id="search-container" class="search-bar"></div>
+    <div id="activities-container" class="activities-grid"></div>
+  </div>
+
+  <script src="js/activities.js"></script>
+
+  <!-- Code-Gate logic -->
+  <script>
+    const inputs = document.querySelectorAll(".letter-inputs input");
+    const btn    = document.getElementById("confirm-btn");
+    const msg    = document.getElementById("code-message");
+
+    function getCode() {
+      return Array.from(inputs).map(i => i.value.toUpperCase()).join("");
+    }
+    function updateBtn() {
+      btn.disabled = getCode().length !== 6;
+    }
+
+    inputs.forEach((input, idx) => {
+      input.addEventListener("input", () => {
+        if (input.value.length > 1) input.value = input.value[0];
+        if (input.value && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        }
+        updateBtn();
+      });
+      input.addEventListener("keydown", e => {
+        if (e.key === "Backspace" && !input.value && idx > 0) {
+          inputs[idx - 1].focus();
+        }
+      });
+      input.addEventListener("paste", e => {
+        const paste = e.clipboardData.getData("text").slice(0,6).split("");
+        paste.forEach((c,j) => { if (inputs[j]) inputs[j].value = c; });
+        inputs[Math.min(paste.length,5)].focus();
+        updateBtn();
+        e.preventDefault();
+      });
+    });
+
+    btn.addEventListener("click", () => {
+      const code = getCode();
+      msg.textContent = "";
+      btn.disabled = true;
+      fetch("https://services.depoxtxyz.workers.dev/auth?code=" + code)
+        .then(r => r.json())
+        .then(data => {
+          if (data.valid) {
+            localStorage.setItem("access", "true");
+            // reveal the real page
+            document.documentElement.classList.add("skip-gate");
+          } else {
+            msg.textContent = "Invalid code.";
+            inputs.forEach(i => i.value = "");
+            inputs[0].focus();
+            updateBtn();
+          }
+        })
+        .catch(() => {
+          msg.textContent = "Error checking code.";
+          btn.disabled = false;
+        });
+    });
+
+    // autofocus first box on load
+    inputs[0].focus();
+  </script>
+  <script>
+    const titles = [
+      "Mastering Grammar Essentials",
+      "Exploring Shakespeare's World",
+      "Top Tips for Better Writing",
+      "Understanding English Literature",
+      "Punctuation Rules You Need to Know",
+      "How to Analyse a Poem",
+      "Common English Mistakes and Fixes",
+      "A Guide to Creative Writing",
+      "The Power of Persuasive Language",
+      "Unlocking English Vocabulary"
+    ];
+    document.title = titles[Math.floor(Math.random() * titles.length)];
+  </script>
+</body>
+</html>
