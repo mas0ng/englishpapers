@@ -9,6 +9,7 @@
     // 1. Only allow from your domains
     const allowed =
       location.hostname === "englishpapers.org" ||
+	location.hostname === "services.englishpapers.org" ||
       location.href.startsWith("file:///Z:/englishpapers.org/");
     if (!allowed) {
       document.write("Access denied.");
