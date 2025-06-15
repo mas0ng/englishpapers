@@ -75,14 +75,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div id="game-container"><div id="loader-overlay">⏳ Click to load</div></div>
     
-    <button class="back-games-btn"
-            onclick="window.location.href = 'activities-2.html';">
-      Back to all games
-    </button>
+    
 
 <button class="forget-btn"
             onclick="localStorage.removeItem('access'); window.location.href = 'open.html?activity=panic';">
       PANIC BUTTON - Removes access from the site
+    </button>
+
+<button class="back-games-btn"
+            onclick="window.location.href = 'activities-2.html';">
+      Back to all games
     </button>
 <footer style="
   border-top: 1px solid var(--border);
