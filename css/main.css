@@ -199,6 +199,21 @@ nav a:hover { color:var(--accent-hover); }
 }
 .forget-btn:hover { background:#D32F2F; }
 
+
+.back-games-btn {
+  display:block;
+  margin:1rem auto 2rem;
+  padding:0.5rem 1rem;
+  background:#013d82;
+  color:#fff;
+  border:none;
+  border-radius:var(--radius);
+  font-family:var(--font-body);
+  cursor:pointer;
+  transition:background var(--transition);
+}
+.back-games-btn:hover { background:#02264f; }
+
 /* 8. Code‐Gate Overlay & Spinner */
 #code-container {
   position:fixed; inset:0;
