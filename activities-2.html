@@ -45,6 +45,38 @@
 
   <!-- Main content (hidden by default via inline style; shown when .skip-gate on <html>) -->
   <div id="main-content" style="display:none">
+<link rel="stylesheet" href="css/subjectBtn.css">
+  <div class="subject-buttons">
+    <button data-subject="english" class="subject-btn">
+      <img src="images/english.png" alt="English icon" class="icon">
+      <span>English</span>
+    </button>
+    <button data-subject="maths" class="subject-btn">
+      <img src="images/maths.png" alt="Maths icon" class="icon">
+      <span>Maths</span>
+    </button>
+    <button data-subject="science" class="subject-btn">
+      <img src="images/science.png" alt="Science icon" class="icon">
+      <span>Science</span>
+    </button>
+    <button data-subject="computing" class="subject-btn">
+      <img src="images/computing.png" alt="Computing icon" class="icon">
+      <span>Computing</span>
+    </button>
+    <button data-subject="economics" class="subject-btn">
+      <img src="images/economics.png" alt="Economics icon" class="icon">
+      <span>Economics</span>
+    </button>
+	<button data-subject="geography" class="subject-btn">
+      <img src="images/geography.png" alt="Geography icon" class="icon">
+      <span>Geography</span>
+    </button>
+	<button data-subject="history" class="subject-btn">
+      <img src="images/history.png" alt="History icon" class="icon">
+      <span>History</span>
+    </button>
+  </div>
+  <script src="js/subjectBtn.js"></script>
   <div class="warning-banner">
     Help keep englishpapers.org online: do not over share the code or type anything into the search bar or games that could be detected by filtering software and get the site blocked.
   </div>
@@ -144,20 +176,6 @@
     // autofocus first box on load
     inputs[0].focus();
   </script>
-  <script>
-    const titles = [
-      "Mastering Grammar Essentials",
-      "Exploring Shakespeare's World",
-      "Top Tips for Better Writing",
-      "Understanding English Literature",
-      "Punctuation Rules You Need to Know",
-      "How to Analyse a Poem",
-      "Common English Mistakes and Fixes",
-      "A Guide to Creative Writing",
-      "The Power of Persuasive Language",
-      "Unlocking English Vocabulary"
-    ];
-    document.title = titles[Math.floor(Math.random() * titles.length)];
-  </script>
+
 </body>
 </html>
