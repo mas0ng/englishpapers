@@ -45,6 +45,49 @@
 
   <!-- Main content (hidden by default via inline style; shown when .skip-gate on <html>) -->
   <div id="main-content" style="display:none">
+  
+  <div id="disclaimer-popup" style="display:none">
+  <div id="disclaimer-card">
+    <h2>Disclaimer</h2>
+    <div id="disclaimer-body">
+  <p><strong>Important Notice:</strong> This website is designed for personal use only and is <em>not intended</em> to be accessed on school property, during school hours, or via school networks.</p>
+  
+  <p>By continuing, you acknowledge and agree to the following terms:</p>
+  <ul>
+    <li>This website is not affiliated with, endorsed by, or connected to any school, educational authority, or institution.</li>
+    <li>Accessing the site on school-managed devices or networks may violate your school’s Acceptable Use Policy (AUP) and could result in disciplinary action.</li>
+    <li>The site contains games and tools that are meant solely for use during your free time, outside of school environments.</li>
+    <li>Sharing this website link, its access credentials, or download files with others on school property may increase the risk of it being blocked or restricted.</li>
+    <li>You are solely responsible for how and where you access this website. The developer is not liable for misuse, access violations, or consequences resulting from inappropriate use.</li>
+    <li>This disclaimer may be updated at any time. Continued use of the site implies agreement with the latest version of these terms.</li>
+  </ul>
+
+  <p>Do not continue unless you fully understand and agree to these terms. Use responsibly.</p>
+</div>
+<a href="terms.html" target="_blank" style="display:block; margin-bottom: 1rem; color: var(--accent); text-decoration: underline; font-size: 0.95rem;">
+  Read the full terms here
+</a>
+    <button id="agree-btn">I AGREE</button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('disclaimer-popup');
+    const agreeBtn = document.getElementById('agree-btn');
+
+    if (!localStorage.getItem('disclaimerAccepted')) {
+      popup.style.display = 'flex';
+    }
+
+    agreeBtn.addEventListener('click', () => {
+      localStorage.setItem('disclaimerAccepted', 'true');
+      popup.style.display = 'none';
+    });
+  });
+</script>
+
+
 <link rel="stylesheet" href="css/subjectBtn.css">
   <div class="subject-buttons">
     <button data-subject="english" class="subject-btn">
@@ -78,7 +121,7 @@
   </div>
   <script src="js/subjectBtn.js"></script>
   <div class="warning-banner">
-    Help keep englishpapers.org online: do not over share the code or type anything into the search bar or games that could be detected by filtering software and get the site blocked.
+    ⚠️ Accessing or sharing this site at school can lead to disciplinary action. Use it only on personal devices and networks.
   </div>
   
     <div id="search-container" class="search-bar"></div>
@@ -106,6 +149,21 @@
       onmouseout="this.style.color='blue'"
     >
       contact us here
+    </a>.
+  </p>
+  <p style="margin: 0; font-size: 0.9rem;">
+    Misuse of this site on school property may result in consequences. Use responsibly.
+    <a 
+      href="terms.html" 
+      style="
+        color: blue;
+        text-decoration: none;
+        transition: color var(--transition);
+      "
+      onmouseover="this.style.color='darkblue'" 
+      onmouseout="this.style.color='blue'"
+    >
+      Read the full Terms
     </a>.
   </p>
 </footer>
