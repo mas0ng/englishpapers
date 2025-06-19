@@ -28,17 +28,25 @@
       try {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-        // Wait a few ms for the title to be accessible
-        setTimeout(() => {
-          const titleElement = iframeDoc.querySelector('title');
-          if (titleElement) {
-            document.title = titleElement.textContent;
-          } else {
-            console.warn('No <title> tag found in iframe.');
+        // Mirror title
+        const titleElement = iframeDoc.querySelector('title');
+        if (titleElement) {
+          document.title = titleElement.textContent;
+        }
+
+        // Mirror favicon
+        const iframeIcon = iframeDoc.querySelector('link[rel~="icon"]');
+        if (iframeIcon) {
+          let favicon = document.querySelector('link[rel~="icon"]');
+          if (!favicon) {
+            favicon = document.createElement('link');
+            favicon.rel = 'icon';
+            document.head.appendChild(favicon);
           }
-        }, 50);
+          favicon.href = iframeIcon.href;
+        }
       } catch (err) {
-        console.warn('Could not read iframe title:', err);
+        console.warn('Could not mirror iframe title or favicon:', err);
       }
     });
   </script>
