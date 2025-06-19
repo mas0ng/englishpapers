@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loading...</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      border: none;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="embeddedPage" src="index.html" allowfullscreen></iframe>
+
+  <script>
+    const iframe = document.getElementById('embeddedPage');
+
+    iframe.addEventListener('load', () => {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Wait a few ms for the title to be accessible
+        setTimeout(() => {
+          const titleElement = iframeDoc.querySelector('title');
+          if (titleElement) {
+            document.title = titleElement.textContent;
+          } else {
+            console.warn('No <title> tag found in iframe.');
+          }
+        }, 50);
+      } catch (err) {
+        console.warn('Could not read iframe title:', err);
+      }
+    });
+  </script>
+</body>
+</html>
